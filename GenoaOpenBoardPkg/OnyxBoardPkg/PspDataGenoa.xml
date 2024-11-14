@@ -19,7 +19,7 @@
     <IMAGE_ENTRY Type="0x22" File="SecureEmptyToken.bin"/>
     <IMAGE_ENTRY Type="0x24" SubProgram="0x1" File="TypeId0x24_RegisterAccessPolicy.esbin"/>
     <IMAGE_ENTRY Type="0x2a" SubProgram="0x1" File="TypeId0x2a_Mp5.ecsbin"/>
-    <IMAGE_ENTRY Type="0x30" File="TypeId0x30_AgesaBootLoaderU.ecsbin"/>
+    <IMAGE_ENTRY Type="0x30" File="Typex30_0_0_0_PspAgesaBL0.bin"/>
     <POINT_ENTRY Type="0x40" Address="0x387000" Size="0x400"/>
     <IMAGE_ENTRY Type="0x42" File="TypeId0x42_PhyFw.esbin"/>
     <IMAGE_ENTRY Type="0x44" File="TypeId0x44_USB_PHY.esbin"/>
@@ -62,7 +62,7 @@
     <IMAGE_ENTRY Type="0x22" File="SecureEmptyToken.bin"/>
     <IMAGE_ENTRY Type="0x24" SubProgram="0x1" File="TypeId0x24_RegisterAccessPolicy.esbin"/>
     <IMAGE_ENTRY Type="0x2a" SubProgram="0x1" File="TypeId0x2a_Mp5.ecsbin"/>
-    <IMAGE_ENTRY Type="0x30" File="TypeId0x30_AgesaBootLoaderU.ecsbin"/>
+    <IMAGE_ENTRY Type="0x30" File="Typex30_0_0_0_PspAgesaBL0.bin"/>
     <IMAGE_ENTRY Type="0x38" File="PspSevEmptyData.bin"/>
     <IMAGE_ENTRY Type="0x39" File="TypeId0x39_SevFw.esbin"/>
     <IMAGE_ENTRY Type="0x42" File="TypeId0x42_PhyFw.esbin"/>
