@@ -34,97 +34,119 @@ The beta release of the EDKII-Platform is intended to integrate with the AMD ope
   * Windows Cmd promt or Linux bash
   * Create a directory to be used as the workspace directory. "workspace" is
     used in the rest of the document to represent the path.
-  * Clone EDKII Host FW Components
-    * [opensil-uefi-interface](https://github.com/openSIL/opensil-uefi-interface)
-      * Clone to 'workspace\AmdOpenSilPkg' directory.
-      * The opensil-uefi-interface includes the [AMD openSIL - Genoa POC](https://github.com/openSIL/openSIL) repository as a submodule.
-    * AGCL-R: [AGCL-R (AGESA Compatibility Layer - Reduced)](https://github.com/openSIL/AGCL-R)
-    * Platform: [EDKII-Platform Code (this repository)](https://github.com/openSIL/EDKII-Platform)
-      * Clone to 'workspace\Platform' directory.
+  * Setup project source tree:
+    * **Method 1 - AMD Bootstrapper tool**
+      * Download AMD Bootstrapper Tool:
+        - [`bootstrapper.py`](PlatformTools/Tools/bootstrapper/bootstrapper.py) tool
+      * Download Genoa POC bootstrapper manifest:
+        - [`genoa_poc.yml`](PlatformTools/Tools/bootstrapper/mfs/genoa_poc.yml)
+      * Bootstrap project sources:
+        - `python bootstrapper.py -f genoa_poc.yml`
+      
+    * **Method 2 - Manual configuration**
+      * Clone EDKII Host FW Components
+        * [opensil-uefi-interface](https://github.com/openSIL/opensil-uefi-interface)
+          * Clone to 'workspace\AmdOpenSilPkg' directory.
+          * The opensil-uefi-interface includes the [AMD openSIL - Genoa POC](https://github.com/openSIL/openSIL) repository as a submodule.
+        * AGCL-R: [AGCL-R (AGESA Compatibility Layer - Reduced)](https://github.com/openSIL/AGCL-R)
+        * Platform: [EDKII-Platform Code (this repository)](https://github.com/openSIL/EDKII-Platform)
+          * Clone to 'workspace\Platform' directory.
 
-  * Acquire EDK2 FW components
-    * [edk2-stable202205](https://github.com/tianocore/edk2/releases/tag/edk2-stable202205)
-      * Clone to 'workspace\edk2' directory.
-    * [edk2-platforms](https://github.com/tianocore/edk2-platforms/commit/b8ffb76b471dae5e24badcd9e04033e8c9439ce3)
-      * Clone to 'workspace\edk2-platforms' directory.
+      * Acquire EDK2 FW components
+        * [edk2-stable202205](https://github.com/tianocore/edk2/releases/tag/edk2-stable202205)
+          * Clone to 'workspace\edk2' directory.
+        * [edk2-platforms](https://github.com/tianocore/edk2-platforms/commit/b8ffb76b471dae5e24badcd9e04033e8c9439ce3)
+          * Clone to 'workspace\edk2-platforms' directory.
 
-  * Acquire BMC GOP EFI Driver.
-    * The Genoa-Onyx platform utilizes the AST 2600 BMC chip.
-      For UEFI video support on the Genoa-Onyx, the GOP EFI driver must be obtained and placed in:
-      `CrbSupportPkg\BmcGopDxe\X64\uefi_2600.efi>`
-      To include the above driver in a build, copy the following file:
-        source: `<workspace>\Platform\AmdCommonPkg\ToCopy\CrbSupportPkg\BmcGopDxe\BmcGopDxe.inf`
-        destination: `<workspace>\CrbSupportPkg\BmcGopDxe\BmcGopDxe.inf`
-  * Copy
-    Windows:
-      Source: Platform\PlatformTools\root_dbuild.cmd
-      Destination: <workspace>\dbuild.cmd
+      * Acquire BMC GOP EFI Driver.
+        * The Genoa-Onyx platform utilizes the AST 2600 BMC chip.
+          For UEFI video support on the Genoa-Onyx, the GOP EFI driver must be obtained and placed in:
+          `CrbSupportPkg\BmcGopDxe\X64\uefi_2600.efi>`
+          To include the above driver in a build, copy the following file:
+            source: `<workspace>\Platform\AmdCommonPkg\ToCopy\CrbSupportPkg\BmcGopDxe\BmcGopDxe.inf`
+            destination: `<workspace>\CrbSupportPkg\BmcGopDxe\BmcGopDxe.inf`
+      * Copy
+        Windows:
+          Source: Platform\PlatformTools\root_dbuild.cmd
+          Destination: <workspace>\dbuild.cmd
 
-    Linux:
-      Source: Platform\PlatformTools\root_dbuild.sh
-      Destination + executable set: <workspace>\dbuild.sh
+        Linux:
+          Source: Platform\PlatformTools\root_dbuild.sh
+          Destination + executable set: <workspace>\dbuild.sh
 
   * **Properly install tools in Required Tools for Windows or Required Tools for Linux**
 ## Required Tools for Windows
 
-  * **Git**
+  * **Docker based Toolchain**
+    The docker based toolchain provides a ready to use build environment with all tools installed.
+    It also includes the Python packages needed by **AMD Bootstrapper tool**
 
-    Download URL: https://git-scm.com/
+    * Download the Dockerfile:
+      - [win.toolchain.dockerfile](PlatformTools/Tools/docker_toolchain/win.toolchain.dockerfile/)
+    * Build toolchain image:
+      - `docker build -f .\win.toolchain.dockerfile --tag win.toolchain .`
+    * Launch a container with current path mounted to workspace:
+      - `docker run -v .:c:/workspace/ -it --rm win.toolchain`
 
-    Make sure any proxy requirements are set in the git config settings.
+  * **Manual installation**
+    * **Git**
 
-  * **Microsoft Visual Studio 2019** (tested)
+      Download URL: https://git-scm.com/
 
-    Make sure Visual Studio and the SDK are properly configured for your
-    environment.
+      Make sure any proxy requirements are set in the git config settings.
 
-    The build will ultimately execute edksetup.bat from edk2 open source which
-    should be able to detect properly installed Visual Studio components and
-    SDKs.
+    * **Microsoft Visual Studio 2019** (tested)
 
-    For inspiration on Visual Studio and SDK Environment Variables, please
-    refer to:
+      Make sure Visual Studio and the SDK are properly configured for your
+      environment.
 
-    `edk2/Conf/tools_def.txt`
+      The build will ultimately execute edksetup.bat from edk2 open source which
+      should be able to detect properly installed Visual Studio components and
+      SDKs.
 
-    `Platform/PlatformTools/BuildTools-env.cmd`
+      For inspiration on Visual Studio and SDK Environment Variables, please
+      refer to:
 
-    If you do not have a Visual Studio install which can be located by
-    edksetup.bat, you will need to configure all the proper PREFIX variables
-    required for the build.
+      `edk2/Conf/tools_def.txt`
 
-    *  **Microsoft SDK**
+      `Platform/PlatformTools/BuildTools-env.cmd`
 
-      Match chosen version of Microsoft Visual Studio.
+      If you do not have a Visual Studio install which can be located by
+      edksetup.bat, you will need to configure all the proper PREFIX variables
+      required for the build.
 
-  * **Python 3.x** (tested 3.7.4 & 3.9)
+      *  **Microsoft SDK**
 
-    Download URL: https://www.python.org
+        Match chosen version of Microsoft Visual Studio.
 
-    Environment Variable: PYTHON_HOME
+    * **Python 3.x** (tested 3.7.4 & 3.9)
 
-    E.g., `PYTHON_HOME = C:\Python39`
+      Download URL: https://www.python.org
 
-  * **Perl** (tested 5.32.1.1)
+      Environment Variable: PYTHON_HOME
 
-    Download URL: https://strawberryperl.com (tested)
+      E.g., `PYTHON_HOME = C:\Python39`
 
-    Strawberry Perl might require separately installing XML::LibXML
-    `cpan install XML::LibXML`
+    * **Perl** (tested 5.32.1.1)
 
-    Environment Variable: PERL_PATH
-    E.g., `PERL_PATH=C:\Strawberry\perl\bin`
+      Download URL: https://strawberryperl.com (tested)
 
-    Alternatively, ActiveState perl is available if there is trouble
-    installing Strawberry Perl.
+      Strawberry Perl might require separately installing XML::LibXML
+      `cpan install XML::LibXML`
 
-  * **NASM** (tested 2.15.05)
+      Environment Variable: PERL_PATH
+      E.g., `PERL_PATH=C:\Strawberry\perl\bin`
 
-    Environment Variable: NASM_PREFIX
+      Alternatively, ActiveState perl is available if there is trouble
+      installing Strawberry Perl.
 
-  * **ASL compiler** (tested 20200110)
+    * **NASM** (tested 2.15.05)
 
-    Environment Variable: ASL_PREFIX
+      Environment Variable: NASM_PREFIX
+
+    * **ASL compiler** (tested 20200110)
+
+      Environment Variable: ASL_PREFIX
 
 ## Required Tools for Linux
 
@@ -175,7 +197,7 @@ The beta release of the EDKII-Platform is intended to integrate with the AMD ope
     * dbuild.cmd
     * dbuild.sh
 
-## Building Platform BIOS (Windows CMD prompt)
+## Building Platform BIOS (Windows CMD prompt / Docker Toolchain)
 
   * Make sure your build environment is configured as referenced in
     [Required Tools for Windows](#required-tools-for-windows)
