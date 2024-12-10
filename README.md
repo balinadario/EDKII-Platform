@@ -34,7 +34,7 @@ The beta release of the EDKII-Platform is intended to integrate with the AMD ope
   * Windows Cmd promt or Linux bash
   * Create a directory to be used as the workspace directory. "workspace" is
     used in the rest of the document to represent the path.
-  * Setup project source tree:
+  * Set up project source tree:
     * **Method 1 - AMD Bootstrapper tool**
       The bootstrapper tool provides a fast, easy to use and well defined project source tree
       configuration by using a project file in YAML format to specify:
