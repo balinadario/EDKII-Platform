@@ -36,8 +36,17 @@ The beta release of the EDKII-Platform is intended to integrate with the AMD ope
     used in the rest of the document to represent the path.
   * Setup project source tree:
     * **Method 1 - AMD Bootstrapper tool**
+      The bootstrapper tool provides a fast, easy to use and well defined project source tree
+      configuration by using a project file in YAML format to specify:
+        - GIT repositories and destination folder.
+        - Third party sources.
+        - Post cloning tasks for: copy, remove, expand files or folders.
+        - Requirements:
+          - Python 3.8 or later
+          - External Python packages: PyYAML, requests, colorlog
+        
       * Download AMD Bootstrapper Tool:
-        - [`bootstrapper.py`](PlatformTools/Tools/bootstrapper/bootstrapper.py) tool
+        - [`bootstrapper.py`](PlatformTools/Tools/bootstrapper/bootstrapper.py)
       * Download Genoa POC bootstrapper manifest:
         - [`genoa_poc.yml`](PlatformTools/Tools/bootstrapper/mfs/genoa_poc.yml)
       * Bootstrap project sources:
@@ -80,13 +89,20 @@ The beta release of the EDKII-Platform is intended to integrate with the AMD ope
   * **Docker based Toolchain**
     The docker based toolchain provides a ready to use build environment with all tools installed.
     It also includes the Python packages needed by **AMD Bootstrapper tool**
-
-    * Download the Dockerfile:
-      - [win.toolchain.dockerfile](PlatformTools/Tools/docker_toolchain/win.toolchain.dockerfile/)
-    * Build toolchain image:
-      - `docker build -f .\win.toolchain.dockerfile --tag win.toolchain .`
-    * Launch a container with current path mounted to workspace:
-      - `docker run -v .:c:/workspace/ -it --rm win.toolchain`
+    * **Windows**
+      * Download the Dockerfile:
+        - [win.toolchain.dockerfile](PlatformTools/Tools/docker_toolchain/win.toolchain.dockerfile/)
+      * Build toolchain image:
+        - `docker build -f .\win.toolchain.dockerfile --tag win.toolchain .`
+      * Launch a container with current path mounted to workspace:
+        - `docker run -v .:c:/workspace/ -it --rm win.toolchain`
+    * **Linux**
+      * Download the Dockerfile:
+        - [linux.toolchain.dockerfile](PlatformTools/Tools/docker_toolchain/linux.toolchain.dockerfile/)
+      * Build toolchain image:
+        - `docker build -f .\linux.toolchain.dockerfile --tag linux.toolchain .`
+      * Launch a container with current path mounted to workspace:
+        - `docker run -v .:/workspace -it --rm linux.toolchain`
 
   * **Manual installation**
     * **Git**
@@ -197,7 +213,7 @@ The beta release of the EDKII-Platform is intended to integrate with the AMD ope
     * dbuild.cmd
     * dbuild.sh
 
-## Building Platform BIOS (Windows CMD prompt / Docker Toolchain)
+## Building Platform BIOS (Windows CMD prompt / Docker Windows Toolchain)
 
   * Make sure your build environment is configured as referenced in
     [Required Tools for Windows](#required-tools-for-windows)
@@ -226,7 +242,7 @@ The beta release of the EDKII-Platform is intended to integrate with the AMD ope
 
   * The final BIOS will be placed in <workspace>\\*.FD
 
-## Building Platform BIOS (Linux bash)
+## Building Platform BIOS (Linux bash / Docker Linux Toolchain)
 
   * Make sure your build environment is configured as referenced in
     [Required Tools for Linux](#required-tools-for-linux)
