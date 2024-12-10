@@ -29,6 +29,9 @@ repositories:
       - action: copy
         source: Platform/PlatformTools/root_dbuild.cmd
         destination: dbuild.cmd
+      - action: copy
+        source: Platform/PlatformTools/root_dbuild.sh
+        destination: dbuild.sh
 
   # AMD Firmwares artifacts
   - repo: amd-firmwares
